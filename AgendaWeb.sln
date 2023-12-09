@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaWeb.Presentation", "AgendaWeb.Presentation\AgendaWeb.Presentation.csproj", "{F33E91D1-2CFC-45D1-84A3-1372BCA7B3BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F33E91D1-2CFC-45D1-84A3-1372BCA7B3BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F33E91D1-2CFC-45D1-84A3-1372BCA7B3BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F33E91D1-2CFC-45D1-84A3-1372BCA7B3BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F33E91D1-2CFC-45D1-84A3-1372BCA7B3BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3AF190F-2518-4294-8502-85EC168B0936}
+	EndGlobalSection
+EndGlobal
