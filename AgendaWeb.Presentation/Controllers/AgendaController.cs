@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AgendaWeb.Presentation.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaWeb.Presentation.Controllers
 {
@@ -6,6 +7,18 @@ namespace AgendaWeb.Presentation.Controllers
     {
         public IActionResult Cadastro()
         {
+            return View();
+        }
+
+        [HttpPost] //Annotation indica que o método será executado no SUBMIT
+        public IActionResult Cadastro(EventoCadastoViewModel model)
+        {
+            //verificar se todos os campos passaram nas regras de validação
+            if(ModelState.IsValid)
+            {
+
+            }
+
             return View();
         }
 
