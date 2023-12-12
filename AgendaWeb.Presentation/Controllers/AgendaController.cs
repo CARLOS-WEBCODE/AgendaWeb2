@@ -27,6 +27,17 @@ namespace AgendaWeb.Presentation.Controllers
             return View();
         }
 
+        [HttpPost] //Annotation indica que o método será executado no SUBMIT
+        public IActionResult Consulta(EventoConsultaViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            return View();
+        }
+
         public IActionResult Edicao()
         {
             return View();

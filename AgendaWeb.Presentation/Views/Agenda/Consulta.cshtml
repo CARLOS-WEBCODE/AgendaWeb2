@@ -1,18 +1,28 @@
-﻿<h5>Consulta de Eventos</h5>
+﻿@* Classe de modelo utilizada nesta página *@
+@model AgendaWeb.Presentation.Models.EventoConsultaViewModel
+
+<h5>Consulta de Eventos</h5>
 <p>
     Preencha os campos para consultar os eventos de sua agenda.
 </p>
 <hr />
 
-<form>
+@using (Html.BeginForm())
+{
     <div class="row mb-3">
         <div class="col-md-3">
             <label>Data de início:</label>
-            <input type="date" class="form-control" />
+            @Html.TextBoxFor(model => model.DataMin, new { @type = "date", @class="form-control" })
+            <span class="text-danger">
+                @Html.ValidationMessageFor(model => model.DataMin)
+            </span>
         </div>
         <div class="col-md-3">
             <label>Data de término:</label>
-            <input type="date" class="form-control" />
+            @Html.TextBoxFor(model => model.DataMax, new { @type = "date", @class = "form-control" })
+            <span class="text-danger">
+                @Html.ValidationMessageFor(model => model.DataMax)
+            </span>
         </div>
     </div>
     <div class="row mb-3">
@@ -21,7 +31,7 @@
                    class="btn btn-success" />
         </div>
     </div>
-</form>
+}
 <table class="table table-hover">
     <thead>
         <tr>
