@@ -44,23 +44,55 @@ namespace AgendaWeb.Infra.Data.Repositories
 
         public void Update(Evento obj)
         {
-            throw new NotImplementedException();
+            var query = @"
+                UPDATE EVENTO 
+                SET 
+                    NOME = @Nome,
+                    DATA = @Data,
+                    HORA = @Hora,
+                    DESCRICAO = @Descricao,
+                    PRIORIDADE = @Prioridade,
+                    DATAALTERACAO = @DataAlteracao,
+                    ATIVO = @Ativo
+                WHERE 
+                    ID = @Id
+                ";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Execute(query, obj);
+            }
         }
         public void Delete(Evento obj)
         {
-            throw new NotImplementedException();
+            var query = @"
+                DELETE FROM EVENTO
+                WHERE ID = @Id
+                ";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Execute(query, obj);
+            }
         }
 
         public List<Evento> GetAll()
         {
-            throw new NotImplementedException();
+            var query = @"
+                SELECT * FROM EVENTO
+                ORDER BY DATA DESC, HORA DESC
+                ";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return connection
+                .Query<Evento>(query)
+               .ToList();
+            }
         }
 
         public Evento GetById(Guid id)
         {
             throw new NotImplementedException();
         }
-        public List<Evento> GetByDatas(DateTime dataMin, DateTime dataMax)
+        public List<Evento> GetByDatas(DateTime? dataMin, DateTime? dataMax, int? ativo)
         {
             throw new NotImplementedException();
         }

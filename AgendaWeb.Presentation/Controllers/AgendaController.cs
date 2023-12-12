@@ -45,14 +45,18 @@ namespace AgendaWeb.Presentation.Controllers
                     //gravando no banco de dados
                     _eventoRepository.Create(evento);
 
-                    TempData["Mensagem"] = $"Evento {evento.Nome}, cadastrado com sucesso.";
+                    TempData["MensagemSucesso"] = $"Evento {evento.Nome}, cadastrado com sucesso.";
 
                     ModelState.Clear(); //limpando os campos do formulário (model)
                 }
                 catch(Exception e)
                 {
-                    TempData["Mensagem"] = e.Message;
+                    TempData["MensagemErro"] = e.Message;
                 }
+            }
+            else
+            {
+                TempData["MensagemAlerta"] = "Ocorreram erros de validação no preenchimento do formulário";
             }
 
             return View();

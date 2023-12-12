@@ -18,6 +18,6 @@ namespace AgendaWeb.Infra.Data.Interfaces
         /// <param name="dataMin">Data de início doperíodo</param>
         /// <param name="dataMax">Data de término do período</param>
         /// <returns>Lista de Eventos</returns>
-        List<Evento> GetByDatas(DateTime dataMin, DateTime dataMax);
+        List<Evento> GetByDatas(DateTime? dataMin, DateTime? dataMax, int? ativo);
     }
 }
