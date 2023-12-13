@@ -70,11 +70,39 @@ namespace AgendaWeb.Presentation.Controllers
         [HttpPost] //Annotation indica que o método será executado no SUBMIT
         public IActionResult Consulta(EventoConsultaViewModel model)
         {
+            //verificar se todos os campos da model passaram nas validações
             if (ModelState.IsValid)
             {
+                try
+                {
+                    //converter as datas
+                    var dataMin = Convert.ToDateTime(model.DataMin);
+                    var dataMax = Convert.ToDateTime(model.DataMax);
 
+                    //realizando a consulta de eventos
+                    model.Eventos = _eventoRepository.GetByDatas(dataMin, dataMax, model.Ativo);
+
+                    //verificando se algum evento foi obtido
+                    if(model.Eventos.Count > 0)
+                    {
+                        TempData["MensagemSucesso"] = $"{model.Eventos.Count} evento(s) obtido(s) para a pesquisa.";
+                    }
+                    else
+                    {
+                        TempData["MensagemAlerta"] = "Nenhum evento foi encontrado para a pesquisa realizada.";
+                    }
+                }
+                catch (Exception e)
+                {
+                    TempData["MensagemAlerta"] = e.Message;
+                }
+            }
+            else
+            {
+                TempData["MensagemAlerta"] = "Ocorreram erros de validação no preenchimento do formulário.";
             }
 
+            //voltando para a página
             return View();
         }
 

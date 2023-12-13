@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AgendaWeb.Infra.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace AgendaWeb.Presentation.Models
 {
@@ -12,5 +13,9 @@ namespace AgendaWeb.Presentation.Models
 
         [Required(ErrorMessage = "Por favor, marque Ativo ou Inativo.")]
         public int? Ativo { get; set; }
+
+        //Lista de eventos que será utilizado para exibir
+        //na página o resultado da consulta feita no banco
+        public List<Evento>? Eventos { get; set; }
     }
 }
