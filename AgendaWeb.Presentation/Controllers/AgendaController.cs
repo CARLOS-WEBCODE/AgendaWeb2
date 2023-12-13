@@ -103,11 +103,71 @@ namespace AgendaWeb.Presentation.Controllers
             }
 
             //voltando para a página
-            return View();
+            return View(model);
         }
 
-        public IActionResult Edicao()
+        public IActionResult Edicao(Guid Id)
         {
+            var model = new EventoEdicaoViewModel();
+            try
+            {
+                //consultar o evento no banco de dados atraves do ID
+                var evento = _eventoRepository.GetById(Id);
+                //preencher os dados da classe model
+                //com as informações do evento
+                model.Id = evento.Id;
+                model.Nome = evento.Nome;
+                model.Data = Convert.ToDateTime(evento.Data).ToString("yyyy-MM-dd");
+                model.Hora = evento.Hora.ToString();
+                model.Descricao = evento.Descricao;
+                model.Prioridade = evento.Prioridade.ToString();
+                model.Ativo = evento.Ativo;
+            }
+            catch (Exception e)
+            {
+                TempData["MensagemErro"] = e.Message;
+            }
+            //enviando o model para a página
+            return View(model);
+        }
+
+        /*
+         * Método para receber o SUBMIT da página de edição (POST)
+         */
+        [HttpPost]
+        public IActionResult Edicao(EventoEdicaoViewModel model)
+        {
+            //verificar se todos os campos passaram nas regras de validação
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //obtendo os dados do evento no banco de dados..
+                    var evento = _eventoRepository.GetById(model.Id);
+
+                    //modificar os dados do evento
+                    evento.Nome = model.Nome;
+                    evento.Data = Convert.ToDateTime(model.Data);
+                    evento.Hora = TimeSpan.Parse(model.Hora);
+                    evento.Descricao = model.Descricao;
+                    evento.Prioridade = Convert.ToInt32(model.Prioridade);
+                    evento.Ativo = model.Ativo;
+                    evento.DataAlteracao = DateTime.Now;
+
+                    //atualizando no banco de dados
+                    _eventoRepository.Update(evento);
+
+                    TempData["MensagemSucesso"] = "Dados do evento atualizado com sucesso.";
+                }
+                catch (Exception e)
+                {
+                    TempData["MensagemErro"] = e.Message;
+                }
+            }
+            else
+            {
+                TempData["MensagemAlerta"] = "Ocorreram erros de validação no preenchimento do formulário.";
+            }
             return View();
         }
 

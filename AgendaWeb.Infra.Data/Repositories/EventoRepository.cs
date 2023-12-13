@@ -35,11 +35,9 @@ namespace AgendaWeb.Infra.Data.Repositories
                 ";
 
             //conectando no banco de dados
-            using(var connection = new SqlConnection(_connectionString))
-            {
-                //executando a gravação do evento na base de dados
-                connection.Execute(query, obj);
-            }
+            using var connection = new SqlConnection(_connectionString);
+            //executando a gravação do evento na base de dados
+            connection.Execute(query, obj);
         }
 
         public void Update(Evento obj)
@@ -57,10 +55,8 @@ namespace AgendaWeb.Infra.Data.Repositories
                 WHERE 
                     ID = @Id
                 ";
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Execute(query, obj);
-            }
+            using var connection = new SqlConnection(_connectionString);
+            connection.Execute(query, obj);
         }
         public void Delete(Evento obj)
         {
@@ -68,10 +64,8 @@ namespace AgendaWeb.Infra.Data.Repositories
                 DELETE FROM EVENTO
                 WHERE ID = @Id
                 ";
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Execute(query, obj);
-            }
+            using var connection = new SqlConnection(_connectionString);
+            connection.Execute(query, obj);
         }
 
         public List<Evento> GetAll()
@@ -80,12 +74,10 @@ namespace AgendaWeb.Infra.Data.Repositories
                 SELECT * FROM EVENTO
                 ORDER BY DATA DESC, HORA DESC
                 ";
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                return connection
-                .Query<Evento>(query)
-               .ToList();
-            }
+            using var connection = new SqlConnection(_connectionString);
+            return connection
+            .Query<Evento>(query)
+           .ToList();
         }
 
         public Evento? GetById(Guid id)
@@ -94,27 +86,27 @@ namespace AgendaWeb.Infra.Data.Repositories
                 SELECT * FROM EVENTO
                 WHERE ID = @id
             ";
-
             using (var connection = new SqlConnection(_connectionString))
             {
                 return connection
-                    .Query<Evento>(query, new { id } ).FirstOrDefault();
+                .Query<Evento>(query, new { id })
+                .FirstOrDefault();
             }
         }
-        public List<Evento> GetByDatas(DateTime? dataMin, DateTime? dataMax, int? ativo)
+        public List<Evento> GetByDatas
+       (DateTime? dataMin, DateTime? dataMax, int? ativo)
         {
             var query = @"
-                SELECT * FROM EVENTO
-                WHERE ATIVO = @ativo AND DATA BETWEEN @dataMin AND @dataMax
-                ORDER BY DATA DESC, HORA DESC
+                 SELECT * FROM EVENTO
+                 WHERE ATIVO = @ativo AND DATA BETWEEN @dataMin AND @dataMax
+                 ORDER BY DATA DESC, HORA DESC
             ";
-
             using (var connection = new SqlConnection(_connectionString))
             {
                 return connection
-                    .Query<Evento>(query, new { ativo, dataMin, dataMax } ).ToList();
+                .Query<Evento>(query, new { ativo, dataMin, dataMax })
+                .ToList();
             }
         }
-
     }
 }
