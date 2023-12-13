@@ -90,7 +90,10 @@
                     <td>
                         <a href="/Agenda/Edicao?id=@item.Id"
                            class="btn btn-primary btn-sm">Alterar</a>
-                        <a href="#" class="btn btn-danger btn-sm">Excluir</a>
+                        <a href="/Agenda/Exclusao?id=@item.Id" onclick="return confirm('Deseja realmente excluir o evento: @item.Nome?');
+                            "class="btn btn-danger btn-sm">
+                            Excluir
+                        </a>
                     </td>
                 </tr>
             }    

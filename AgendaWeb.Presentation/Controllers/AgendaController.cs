@@ -170,9 +170,37 @@ namespace AgendaWeb.Presentation.Controllers
             }
             return View();
         }
+        public IActionResult Exclusao(Guid id)
+        {
+            try
+            {
+                //buscar o evento no banco de dados
+                var evento = _eventoRepository.GetById(id);
+
+                //excluindo o evento
+                _eventoRepository.Delete(evento);
+
+                TempData["MensagemSucesso"] = $"Evento '{evento.Nome}', excluído com sucesso.";
+            }
+            catch (Exception e)
+            {
+                TempData["MensagemErro"] = e.Message;
+            }
+            //redirecionar de volta para a página de consulta
+            return RedirectToAction("Consulta");
+        }
 
         public IActionResult Relatorio()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Relatorio(EventoRelatorioViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+            }
             return View();
         }
     }
