@@ -88,13 +88,32 @@ namespace AgendaWeb.Infra.Data.Repositories
             }
         }
 
-        public Evento GetById(Guid id)
+        public Evento? GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var query = @"
+                SELECT * FROM EVENTO
+                WHERE ID = @id
+            ";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return connection
+                    .Query<Evento>(query, new { id } ).FirstOrDefault();
+            }
         }
         public List<Evento> GetByDatas(DateTime? dataMin, DateTime? dataMax, int? ativo)
         {
-            throw new NotImplementedException();
+            var query = @"
+                SELECT * FROM EVENTO
+                WHERE ATIVO = @ativo AND DATA BETWEEN @dataMin AND @dataMax
+                ORDER BY DATA DESC, HORA DESC
+            ";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return connection
+                    .Query<Evento>(query, new { ativo, dataMin, dataMax } ).ToList();
+            }
         }
 
     }
