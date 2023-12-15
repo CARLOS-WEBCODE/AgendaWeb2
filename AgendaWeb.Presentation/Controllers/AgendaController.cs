@@ -1,7 +1,11 @@
 ﻿using AgendaWeb.Infra.Data.Entities;
 using AgendaWeb.Infra.Data.Interfaces;
 using AgendaWeb.Presentation.Models;
+using AgendaWeb.Reports.Interfaces;
+using AgendaWeb.Reports.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.SqlServer.Server;
+using System;
 using System.Data;
 
 namespace AgendaWeb.Presentation.Controllers
@@ -200,6 +204,57 @@ namespace AgendaWeb.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                try
+                {
+                    //capturar as datas enviadas
+                    DateTime dataMin = Convert.ToDateTime(model.DataMin);
+                    DateTime dataMax = Convert.ToDateTime(model.DataMax);
+
+                    //consultar os eventos no banco atraves das datas
+                    var eventos = _eventoRepository.GetByDatas (dataMin, dataMax, model.Ativo);
+
+                    //verificar se algum evento foi obtido
+                    if (eventos.Count > 0)
+                    {
+                        //criando um objeto para a interface..
+                        IEventoReportService eventoReportService = null;
+                        //vazio
+
+                        //variaveis para definir os parametros de download
+                        var contentType = string.Empty; //MIME TYPE
+                        var fileName = string.Empty;
+
+                        switch (model.Formato)
+                        {
+                            case 1: //Polimorfismo
+                                eventoReportService = new EventoReportServicePdf();
+                                contentType = "application/pdf";
+                                fileName = $"eventos_{DateTime.Now.ToString("ddMMyyyyHHmmss")}.pdf";
+                                break;
+
+                            case 2: //Polimorfismo
+                                eventoReportService = new EventoReportServiceExcel();
+                                contentType = "application/vnd.openxmlformats - officedocument.spreadsheetml.sheet";
+                                fileName = $"eventos_{DateTime.Now.ToString("ddMMyyyyHHmmss")}.xlsx";
+                                break;
+                        }
+                        //gerando o arquivo do relatorio
+                        var arquivo = eventoReportService.Create(dataMin, dataMax, eventos);
+
+                        //DOWNLOAD do Arquivo
+                        return File(arquivo, contentType, fileName);
+                    }
+                    else
+                    {
+                        TempData["MensagemAlerta"] = "Nenhum evento foi obtido para a pesquisa informada.";
+                    }
+                }
+                
+                catch (Exception e)
+                {
+                    TempData["MensagemErro"] = e.Message;
+                }
+
             }
             return View();
         }
