@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AgendaWeb.Infra.Data\AgendaWeb.Infra.Data.csproj" />
   </ItemGroup>
 
