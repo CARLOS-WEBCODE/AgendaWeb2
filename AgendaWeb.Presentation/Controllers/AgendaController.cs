@@ -224,17 +224,17 @@ namespace AgendaWeb.Presentation.Controllers
                         var contentType = string.Empty; //MIME TYPE
                         var fileName = string.Empty;
 
-                        switch (model.Formato)
+                        switch(model.Formato)
                         {
                             case 1: //Polimorfismo
                                 eventoReportService = new EventoReportServicePdf();
-                                contentType = "application/pdf";
+                                contentType = "aplication/pdf";
                                 fileName = $"eventos_{DateTime.Now.ToString("ddMMyyyyHHmmss")}.pdf";
                                 break;
 
                             case 2: //Polimorfismo
                                 eventoReportService = new EventoReportServiceExcel();
-                                contentType = "application/vnd.openxmlformats - officedocument.spreadsheetml.sheet";
+                                contentType = "aplication/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                                 fileName = $"eventos_{DateTime.Now.ToString("ddMMyyyyHHmmss")}.xlsx";
                                 break;
                         }
