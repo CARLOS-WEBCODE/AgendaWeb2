@@ -13,13 +13,14 @@ namespace AgendaWeb.Infra.Data.Interfaces
     public interface IEventoRepository : IBaseRepository<Evento>
     {
         /// <summary>
-        /// Método para retornar todos os eventosdentro de um periodo de datas
-     /// </summary>
-     /// <param name="dataMin">Data de início do periodo</param>
-     /// <param name="dataMax">Data de termino do periodo</param>
-     /// <param name="ativo">Flag 0 para inativo ou 1 para ativo</param>
-     /// <returns>Lista de eventos</returns>
-        List<Evento> GetByDatas(DateTime? dataMin, DateTime? dataMax, int? ativo);
+        /// Método para retornar todos os eventos dentro de um periodo de datas
+        /// </summary>
+        /// <param name="dataMin">Data de início do periodo</param>
+        /// <param name="dataMax">Data de termino do periodo</param>
+        /// <param name="ativo">Flag 0 para inativo ou 1 para ativo</param>
+        /// <param name="idUsuario">ID do usuário</param>
+        /// <returns>Lista de eventos</returns>
+        List<Evento> GetByDatas(DateTime? dataMin, DateTime? dataMax, int? ativo, Guid idUsuario);
     }
 }
 

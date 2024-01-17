@@ -17,7 +17,7 @@ namespace AgendaWeb.Infra.Data.Interfaces
         /// </summary>
         /// <param name="email">Email do usuário</param>
         /// <returns>Objeto Usuario ou null se não for encontrado</returns>
-        Usuario GetByEmail(string email);
+        Usuario? GetByEmail(string email);
 
         /// <summary>
         /// Método para retornar os dados de 1 Usuário baseado no email e na senha
@@ -25,6 +25,6 @@ namespace AgendaWeb.Infra.Data.Interfaces
         /// <param name="email">Email do usuário</param>
         /// <param name="senha">Senha do usuário</param>
         /// <returns>Objeto Usuario ou null se não for encontrado</returns>
-        Usuario GetByEmailESenha(string email, string senha);
+        Usuario? GetByEmailESenha(string email, string senha);
     }
 }

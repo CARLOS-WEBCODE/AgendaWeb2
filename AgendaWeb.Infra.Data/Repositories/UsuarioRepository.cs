@@ -69,39 +69,47 @@ namespace AgendaWeb.Infra.Data.Repositories
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return connection.Query<Usuario>(query).ToList();
+                return connection
+                    .Query<Usuario>(query)
+                    .ToList();
             }
 
         }
 
-        public Usuario GetById(Guid id)
+        public Usuario? GetById(Guid id)
         {
             var query = "SELECT * FROM USUARIO WHERE ID = @id";
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return connection.Query<Usuario>(query, new { id }).FirstOrDefault();
+                return connection
+                    .Query<Usuario>(query, new { id })
+                    .FirstOrDefault();
             }
         }
 
-        public Usuario GetByEmail(string email)
+        public Usuario? GetByEmail(string email)
         {
             var query = @"SELECT * FROM USUARIO WHERE EMAIL = @email";
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return connection.Query<Usuario>(query, new { email }).FirstOrDefault();
+                return connection
+                    .Query<Usuario>(query, new { email })
+                    .FirstOrDefault();
             }
         }
 
-        public Usuario GetByEmailESenha(string email, string senha)
+        public Usuario? GetByEmailESenha(string email, string senha)
         {
             var query = @"SELECT * FROM USUARIO 
                             WHERE EMAIL = @email AND SENHA = @senha";
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return connection.Query<Usuario>(query, new { email, senha }).FirstOrDefault();
+                return connection
+                    .Query<Usuario>(query, new { email, senha })
+                    .FirstOrDefault();
             }
         }
     }

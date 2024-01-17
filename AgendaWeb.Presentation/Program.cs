@@ -9,9 +9,11 @@ builder.Services.AddControllersWithViews();
 //capturar a connectionstring mapeada no 'appsettings.json'
 var connectionString = builder.Configuration.GetConnectionString("AgendaWeb2");
 
-//enviar a connectionstring para a classe EventoRepository
+//injeção de dependencia para as classes do repositorio
 builder.Services.AddTransient<IEventoRepository>
     (map => new EventoRepository(connectionString));
+
+builder.Services.AddTransient<IUsuarioRepository>(map => new UsuarioRepository(connectionString));
 
 var app = builder.Build();
 
