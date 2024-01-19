@@ -8,7 +8,8 @@ builder.Services.AddControllersWithViews();
 
 //habilitando o uso de sessões no projeto
 builder.Services.AddSession();
-builder.Services.AddSingleton<IHttpContextAccessor, IHttpContextAccessor>();
+builder.Services.AddSingleton<IHttpContextAccessor,
+HttpContextAccessor>();
 
 //capturar a connectionstring mapeada no 'appsettings.json'
 var connectionString = builder.Configuration.GetConnectionString("AgendaWeb2");
@@ -23,6 +24,7 @@ var app = builder.Build();
 
 //habilitando o uso de sessões no projeto
 app.UseSession();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
