@@ -6,6 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Configurando o projeto para MVC
 builder.Services.AddControllersWithViews();
 
+//habilitando o uso de sessões no projeto
+builder.Services.AddSession();
+builder.Services.AddSingleton<IHttpContextAccessor, IHttpContextAccessor>();
+
 //capturar a connectionstring mapeada no 'appsettings.json'
 var connectionString = builder.Configuration.GetConnectionString("AgendaWeb2");
 
@@ -16,6 +20,9 @@ builder.Services.AddTransient<IEventoRepository>
 builder.Services.AddTransient<IUsuarioRepository>(map => new UsuarioRepository(connectionString));
 
 var app = builder.Build();
+
+//habilitando o uso de sessões no projeto
+app.UseSession();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

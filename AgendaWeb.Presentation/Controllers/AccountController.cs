@@ -25,6 +25,33 @@ namespace AgendaWeb.Presentation.Controllers
         [HttpPost]
         public IActionResult Login(AccountLoginViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //procurar o usuario no banco de dados 
+                    //atraves do email e senha
+                    var usuario = _usuarioRepository.GetByEmailESenha(model.Email, CriptografiaUtil.GetMD5(model.Senha));
+                    
+                    //verificar se o usuário foi encontrado
+                    if (usuario != null)
+                    {
+                        TempData["MensagemSucesso"] = $"Parabéns, {usuario.Nome}! Acesso ao sistema realizado com sucesso.";
+                        
+                        //redirecionar para a página inicial do projeto
+                        return RedirectToAction("Index", "Home"); //Home/Index
+                    }
+                    else
+                    {
+                        TempData["MensagemErro"] = "Acesso negado. Usuário inválido.";
+                    }
+                }
+                catch (Exception e)
+                {
+                    TempData["MensagemErro"] = e.Message;
+                }
+            }
+
             return View();
         }
 
