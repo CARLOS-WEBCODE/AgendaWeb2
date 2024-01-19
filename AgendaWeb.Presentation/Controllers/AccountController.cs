@@ -37,7 +37,10 @@ namespace AgendaWeb.Presentation.Controllers
                     if (usuario != null)
                     {
                         TempData["MensagemSucesso"] = $"Parabéns, {usuario.Nome}! Acesso ao sistema realizado com sucesso.";
-                        
+
+                        //gravar o nome do usuário autenticado em sessão
+                        HttpContext.Session.SetString("nome_usuario", usuario.Nome);
+
                         //redirecionar para a página inicial do projeto
                         return RedirectToAction("Index", "Home"); //Home/Index
                     }
