@@ -38,7 +38,7 @@
                         {
                             <label>Email de acesso:</label>
                             @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-                            <span>
+                            <span class="text-danger">
                                 @Html.ValidationMessageFor(model => model.Email)
                             </span>
 
@@ -46,10 +46,12 @@
 
                             <label>Senha de acesso:</label>
                             @Html.PasswordFor(model => model.Senha, new { @class = "form-control" })
-                            <span>
+                            <span class="text-danger">
                                 @Html.ValidationMessageFor(model => model.Senha)
                             </span>
+
                             <br />
+
                             <div class="d-grid mb-2">
                                 <input type="submit" value="Acessar Conta" class="btn btn-dark" />
                             </div>

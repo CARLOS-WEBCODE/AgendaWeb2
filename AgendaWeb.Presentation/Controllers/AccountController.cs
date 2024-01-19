@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AgendaWeb.Presentation.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaWeb.Presentation.Controllers
 {
@@ -9,7 +10,19 @@ namespace AgendaWeb.Presentation.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Login(AccountLoginViewModel model)
+        {
+            return View();
+        }
+
         public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(AccountRegisterViewModel model)
         {
             return View();
         }
