@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaWeb.Infra.Data", "Age
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Reports", "3 - Reports", "{3015C145-D081-4588-AE33-D70239002329}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaWeb.Reports", "AgendaWeb.Reports\AgendaWeb.Reports.csproj", "{A43B29B6-8471-42E6-8BE9-EEFC1555F219}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaWeb.Reports", "AgendaWeb.Reports\AgendaWeb.Reports.csproj", "{A43B29B6-8471-42E6-8BE9-EEFC1555F219}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
