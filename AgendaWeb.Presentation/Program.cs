@@ -28,9 +28,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+//Definindo a página inicial do projeto
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}"
+    pattern: "{controller=Account}/{action=Login}"
     );
 
 app.Run();
