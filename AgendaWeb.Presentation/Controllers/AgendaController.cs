@@ -5,6 +5,7 @@ using AgendaWeb.Reports.Interfaces;
 using AgendaWeb.Reports.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.SqlServer.Server;
+using Newtonsoft.Json;
 using System;
 using System.Data;
 
@@ -34,6 +35,10 @@ namespace AgendaWeb.Presentation.Controllers
             {
                 try
                 {
+                    //ler o usuário autenticado na sessão
+                    var json = HttpContext.Session.GetString("usuario");
+                    var usuario = JsonConvert.DeserializeObject<UserIdentityModel>(json);
+
                     var evento = new Evento
                     {
                         Id = Guid.NewGuid(),
@@ -44,6 +49,7 @@ namespace AgendaWeb.Presentation.Controllers
                         Prioridade = Convert.ToInt32(model.Prioridade),
                         DataInclusao = DateTime.Now,
                         DataAlteracao = DateTime.Now,
+                        IdUsuario = usuario.Id  //foreign key
                     };
 
                     //gravando no banco de dados
@@ -83,17 +89,26 @@ namespace AgendaWeb.Presentation.Controllers
                     var dataMin = Convert.ToDateTime(model.DataMin);
                     var dataMax = Convert.ToDateTime(model.DataMax);
 
-                    //realizando a consulta de eventos
-                    model.Eventos = _eventoRepository.GetByDatas(dataMin, dataMax, model.Ativo, Guid.NewGuid());
+                    //verificando se a data de inicio é menor ou igual a data fim
 
-                    //verificando se algum evento foi obtido
-                    if(model.Eventos.Count > 0)
+                    if (dataMin <= dataMax)
                     {
-                        TempData["MensagemSucesso"] = $"{model.Eventos.Count} evento(s) obtido(s) para a pesquisa.";
-                    }
-                    else
-                    {
-                        TempData["MensagemAlerta"] = "Nenhum evento foi encontrado para a pesquisa realizada.";
+                        //ler o usuário autenticado na sessão
+                        var json = HttpContext.Session.GetString("usuario");
+                        var usuario = JsonConvert.DeserializeObject<UserIdentityModel>(json);
+
+                        //realizando a consulta de eventos
+                        model.Eventos = _eventoRepository.GetByDatas(dataMin, dataMax, model.Ativo, usuario.Id);
+
+                        //verificando se algum evento foi obtido
+                        if (model.Eventos.Count > 0)
+                        {
+                            TempData["MensagemSucesso"] = $"{model.Eventos.Count} evento(s) obtido(s) para a pesquisa.";
+                        }
+                        else
+                        {
+                            TempData["MensagemAlerta"] = "Nenhum evento foi encontrado para a pesquisa realizada.";
+                        }
                     }
                 }
                 catch (Exception e)
@@ -149,6 +164,10 @@ namespace AgendaWeb.Presentation.Controllers
                     //obtendo os dados do evento no banco de dados..
                     var evento = _eventoRepository.GetById(model.Id);
 
+                    //ler o usuário autenticado na sessão
+                    var json = HttpContext.Session.GetString("usuario");
+                    var usuario = JsonConvert.DeserializeObject<UserIdentityModel>(json);
+
                     //modificar os dados do evento
                     evento.Nome = model.Nome;
                     evento.Data = Convert.ToDateTime(model.Data);
@@ -157,6 +176,7 @@ namespace AgendaWeb.Presentation.Controllers
                     evento.Prioridade = Convert.ToInt32(model.Prioridade);
                     evento.Ativo = model.Ativo;
                     evento.DataAlteracao = DateTime.Now;
+                    evento.IdUsuario = usuario.Id;
 
                     //atualizando no banco de dados
                     _eventoRepository.Update(evento);
@@ -210,15 +230,18 @@ namespace AgendaWeb.Presentation.Controllers
                     DateTime dataMin = Convert.ToDateTime(model.DataMin);
                     DateTime dataMax = Convert.ToDateTime(model.DataMax);
 
+                    //ler o usuário autenticado na sessão
+                    var json = HttpContext.Session.GetString("usuario");
+                    var usuario = JsonConvert.DeserializeObject<UserIdentityModel>(json);
+
                     //consultar os eventos no banco atraves das datas
-                    var eventos = _eventoRepository.GetByDatas (dataMin, dataMax, model.Ativo, Guid.NewGuid());
+                    var eventos = _eventoRepository.GetByDatas (dataMin, dataMax, model.Ativo, usuario.Id);
 
                     //verificar se algum evento foi obtido
                     if (eventos.Count > 0)
                     {
                         //criando um objeto para a interface..
-                        IEventoReportService eventoReportService = null;
-                        //vazio
+                        IEventoReportService eventoReportService = null; //vazio
 
                         //variaveis para definir os parametros de download
                         var contentType = string.Empty; //MIME TYPE
