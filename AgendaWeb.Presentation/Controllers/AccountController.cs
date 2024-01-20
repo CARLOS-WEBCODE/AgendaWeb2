@@ -3,6 +3,7 @@ using AgendaWeb.Infra.Data.Interfaces;
 using AgendaWeb.Infra.Data.Utils;
 using AgendaWeb.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace AgendaWeb.Presentation.Controllers
 {
@@ -39,7 +40,19 @@ namespace AgendaWeb.Presentation.Controllers
                         TempData["MensagemSucesso"] = $"Parabéns, {usuario.Nome}! Acesso ao sistema realizado com sucesso.";
 
                         //gravar o nome do usuário autenticado em sessão
-                        HttpContext.Session.SetString("nome_usuario", usuario.Nome);
+                        var userIdentityModel = new UserIdentityModel
+                        {
+                            Id = usuario.Id,
+                            Nome = usuario.Nome,
+                            Email = usuario.Email,
+                            DataInclusao = usuario.DataInclusao,
+                            DataHoraAcesso = DateTime.Now,
+                        };
+
+                        //converter o objeto em JSON
+                        var json = JsonConvert.SerializeObject(userIdentityModel);
+
+                        HttpContext.Session.SetString("usuario", json);
 
                         //redirecionar para a página inicial do projeto
                         return RedirectToAction("Index", "Home"); //Home/Index
