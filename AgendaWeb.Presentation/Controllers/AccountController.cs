@@ -113,5 +113,10 @@ namespace AgendaWeb.Presentation.Controllers
             }
             return View();
         }
+
+        public IActionResult UserData()
+        {
+            return View();
+        }
     }
 }
