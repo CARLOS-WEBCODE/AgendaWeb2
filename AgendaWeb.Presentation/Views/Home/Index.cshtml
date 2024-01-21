@@ -81,3 +81,82 @@
         </div>
     </div>
 </div>
+
+<!-- desenvolvendo os gráficos -->
+<div class="row mb-5">
+    <div class="col-md-6">
+        <div id="graficoPrioridades"></div>
+    </div>
+    <div class="col-md-6">
+        <div id="graficoAtivosInativos"></div>
+    </div>
+</div>
+
+<!-- referencia do highcharts -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script>
+
+    //Gráfico de eventos por prioridade
+    var arrayPrioridades = [];
+    arrayPrioridades.push(['ALTA', @Model.TotalPrioridadeAlta]);
+    arrayPrioridades.push(['MEDIA', @Model.TotalPrioridadeMedia]);
+    arrayPrioridades.push(['BAIXA', @Model.TotalPrioridadeBaixa]);
+    new Highcharts.Chart({
+        chart: {
+            type: 'pie',
+            renderTo: 'graficoPrioridades'
+        },
+        title: {
+            text: 'Quantidade de eventos por prioridade'
+        },
+        plotOptions: {
+            pie: {
+                innerSize: '60%',
+                dataLabels: {
+                    enable: true
+                },
+                showInLegend: true
+            }
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            data: arrayPrioridades
+        }],
+        colors: ['#d9534f', '#f0ad4e', '#5cb85c']
+    });
+
+    //Gráfico de eventos por ativos e inativos
+    var arrayAtivosInativos = [];
+    arrayAtivosInativos.push(['ATIVOS', @Model.TotalAtivos]);
+    arrayAtivosInativos.push(['INATIVOS', @Model.TotalInativos]);
+    new Highcharts.Chart({
+        chart: {
+            type: 'pie',
+            renderTo: 'graficoAtivosInativos'
+        },
+        title: {
+            text: 'Quantidade de eventos ativos / inativos'
+        },
+        plotOptions: {
+            pie: {
+                innerSize: '60%',
+                dataLabels: {
+                    enable: true
+                },
+                showInLegend: true
+            }
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            data: arrayAtivosInativos
+        }],
+        colors: ['#0275d8', '#292b2c']
+    });
+</script>
