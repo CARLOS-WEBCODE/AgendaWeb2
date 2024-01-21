@@ -4,6 +4,7 @@ using AgendaWeb.Infra.Data.Utils;
 using AgendaWeb.Presentation.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Security.Claims;
@@ -128,9 +129,23 @@ namespace AgendaWeb.Presentation.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult UserData()
         {
             return View();
+        }
+
+        [Authorize]
+        public IActionResult Logout()
+        {
+            //apagar os dados da sessão
+            HttpContext.Session.Remove("usuario");
+
+            //apagar a permissão dada ao usuário autenticado
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            //redirecionar o usuário a página de login
+            return RedirectToAction("Login");
         }
     }
 }

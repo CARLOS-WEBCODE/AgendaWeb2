@@ -3,6 +3,7 @@ using AgendaWeb.Infra.Data.Interfaces;
 using AgendaWeb.Presentation.Models;
 using AgendaWeb.Reports.Interfaces;
 using AgendaWeb.Reports.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using System.Data;
 
 namespace AgendaWeb.Presentation.Controllers
 {
+    [Authorize]
     public class AgendaController : Controller
     {
         //atributo
