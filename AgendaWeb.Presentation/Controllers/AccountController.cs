@@ -2,8 +2,11 @@
 using AgendaWeb.Infra.Data.Interfaces;
 using AgendaWeb.Infra.Data.Utils;
 using AgendaWeb.Presentation.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace AgendaWeb.Presentation.Controllers
 {
@@ -53,6 +56,17 @@ namespace AgendaWeb.Presentation.Controllers
                         var json = JsonConvert.SerializeObject(userIdentityModel);
 
                         HttpContext.Session.SetString("usuario", json);
+
+                        #region Criando a permissão de acesso do usuário 
+
+                        var autorizacao = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, usuario.Id.ToString()) },
+                            CookieAuthenticationDefaults.AuthenticationScheme);
+
+                        var claimPrincipal = new ClaimsPrincipal(autorizacao);
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimPrincipal);
+
+                        #endregion
+
 
                         //redirecionar para a página inicial do projeto
                         return RedirectToAction("Index", "Home"); //Home/Index
